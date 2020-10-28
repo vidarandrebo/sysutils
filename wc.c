@@ -4,13 +4,16 @@
 void wordcount(FILE *ifp, int *cr, int *wd, int *ln, char *argv) {
     int c, word, character, line;
     word = line = character = 0;
+    //previous is set to true when the current character was some form of whitespace
     bool previous = false;
-    bool valid = false;
     while((c = fgetc(ifp)) != EOF) {
         switch (c) {
             case '\n':
+                if (previous == false) {
+                    word++;
+                    previous = true;
+                }
                 line++;
-                word++;
                 break;
             case '\t':
                 if (previous == false) {
