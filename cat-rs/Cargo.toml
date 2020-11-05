@@ -1,0 +1,9 @@
+[package]
+name = "cat-rs"
+version = "0.1.0"
+authors = ["vidarandrebo <va.bo@stud.uis.no>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
