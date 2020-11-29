@@ -79,7 +79,9 @@ func main() {
 			defer wg.Done()
 			file := loadFile(os.Args[i])
 			count := wordCount(file)
+			total.gmu.Lock()
 			combine(total, count)
+			total.gmu.Unlock()
 			fmt.Printf("%s\t%s\n", count.String(), os.Args[i])
 		}(i)
 
