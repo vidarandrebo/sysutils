@@ -56,6 +56,12 @@ func wordCount(b []byte) *stats {
 				count.words++
 				last = false
 			}
+		case '\t':
+			count.characters++
+			if last {
+				count.words++
+				last = false
+			}
 		default:
 			count.characters++
 			last = true
@@ -81,5 +87,9 @@ func main() {
 	wg.Wait()
 	if len(os.Args) > 2 {
 		fmt.Printf("%s\ttotal\n", total.String())
+	} else if len(os.Args) == 1 {
+		data, _ := ioutil.ReadFile("/dev/stdin")
+		counter := wordCount(data)
+		fmt.Printf("%s\n", counter.String())
 	}
 }
