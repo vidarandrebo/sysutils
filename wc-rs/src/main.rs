@@ -16,7 +16,6 @@ fn main() {
     println!("{}\t{}\t{}\ttotal", newlines, words, characters);
 }
 
-#[inline(always)]
 fn is_word_separator(byte: u8) -> bool {
     byte == b' ' || byte == b'\t' || byte == b'\r' || byte == 0x16_u8 || byte == 0x0C_u8
 }
