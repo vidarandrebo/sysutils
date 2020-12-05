@@ -7,9 +7,9 @@ use std::str::from_utf8;
 
 fn main() {
     let (newlines, characters, words) = std::env::args()
+        .skip(1)
         .collect::<Vec<String>>()
         .par_iter()
-        .skip(1)
         .flat_map(|x| count(&x))
         .reduce(|| (0, 0, 0), |x, y| (x.0 + y.0, x.1 + y.1, x.2 + y.2));
 
@@ -50,5 +50,6 @@ fn count(path: &str) -> Result<(usize, usize, usize), Error> {
     }
 
     println!("{}\t{}\t{}\t{}", newlines, words, characters, path);
+
     Ok((newlines, characters, words))
 }
