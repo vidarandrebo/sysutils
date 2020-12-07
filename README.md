@@ -1,2 +1,2 @@
 # sysutils
-System utilities in C, rust and go.
+System utilities in C, Rust and Go.
