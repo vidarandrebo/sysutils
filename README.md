@@ -1,2 +1,2 @@
 # sysutils
-These are some simple versions of common system utilities
+System utilities in C, rust and go.
