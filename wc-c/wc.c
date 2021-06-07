@@ -2,10 +2,13 @@
 #include <stdbool.h>
 #include <pthread.h>
 #define BUFFERSIZE 65536
+
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
 struct Count {
-    int line;
-    int word;
-    int character;
+    long int line;
+    long int word;
+    long int character;
 };
 
 struct FileInfo {
@@ -15,7 +18,7 @@ struct FileInfo {
 
 void wordcount(FILE *ifp, struct Count *globalCount, char *argv) {
     char buffer [BUFFERSIZE];
-    int c, word, character, line;
+    long int word, character, line;
     word = line = character = 0;
     //previous is set to true when the current character was some form of whitespace
     bool previous = false;
@@ -48,14 +51,16 @@ void wordcount(FILE *ifp, struct Count *globalCount, char *argv) {
             character++;
         }
     }
+    pthread_mutex_lock(&mutex);
     globalCount->character += character;
     globalCount->word += word;
     globalCount->line += line;
+    pthread_mutex_unlock(&mutex);
     if (*argv == 'n') {
-        printf("%d\t%d\t%d\t\n", line, word, character);
+        printf("%ld\t%ld\t%ld\t\n", line, word, character);
     }
     else {
-        printf("%d\t%d\t%d\t%s\n", line, word, character, argv);
+        printf("%ld\t%ld\t%ld\t%s\n", line, word, character, argv);
     }
 }
 
@@ -74,6 +79,9 @@ void *createThreads(void *inputArgs) {
 
 int main(int argc, char *argv[]) {
     struct Count globalCount;
+    globalCount.word = 0;
+    globalCount.character = 0;
+    globalCount.line = 0;
     if (argc == 1) {
         char b = 'n';
         char *d = &b;
@@ -96,7 +104,7 @@ int main(int argc, char *argv[]) {
             pthread_join(threadArray[i], NULL);
         }
         if (n > 1) {
-            printf("%d\t%d\t%d\ttotal\n", globalCount.line, globalCount.word, globalCount.character);
+            printf("%ld\t%ld\t%ld\ttotal\n", globalCount.line, globalCount.word, globalCount.character);
         }
     }
     return 0;
