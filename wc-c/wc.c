@@ -46,13 +46,10 @@ void wordcount(FILE *ifp, int *cr, int *wd, int *ln, char *argv) {
 int main(int argc, char *argv[]) {
     int character, word, line;
     word = line = character = 0;
-    int *cr = &character;
-    int *wd = &word;
-    int *ln = &line;
     if (argc == 1) {
         char b = 'n';
         char *d = &b;
-        wordcount(stdin, cr, wd, ln, d);    
+        wordcount(stdin, &character, &word, &line, d);    
         return 0;
     }
     else {
@@ -64,7 +61,7 @@ int main(int argc, char *argv[]) {
                 fprintf(stderr, "Can't open %s\n", *argv);
             }
             else {
-                wordcount(fp, cr, wd, ln, *argv);
+                wordcount(fp, &character, &word, &line, *argv);
                 fclose(fp);
             }
             n++;
